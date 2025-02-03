@@ -1,0 +1,248 @@
+{
+    "Gold Rush": {
+        "addPaused": null,
+        "affectedFeeds": [
+            "https://eztvx.to/ezrss.xml",
+            "https://showrss.info/user/286824.rss?magnets=true&namespaces=true&name=null&quality=null&re=null"
+        ],
+        "assignedCategory": "",
+        "enabled": true,
+        "episodeFilter": "",
+        "ignoreDays": 0,
+        "lastMatch": "",
+        "mustContain": "Gold Rush",
+        "mustNotContain": "",
+        "previouslyMatchedEpisodes": [
+        ],
+        "priority": 0,
+        "savePath": "",
+        "smartFilter": true,
+        "torrentContentLayout": null,
+        "torrentParams": {
+            "category": "",
+            "download_limit": -1,
+            "download_path": "",
+            "inactive_seeding_time_limit": -2,
+            "operating_mode": "AutoManaged",
+            "ratio_limit": -2,
+            "save_path": "",
+            "seeding_time_limit": -2,
+            "share_limit_action": "Default",
+            "skip_checking": false,
+            "ssl_certificate": "",
+            "ssl_dh_params": "",
+            "ssl_private_key": "",
+            "tags": [
+                "media",
+                "TV Shows"
+            ],
+            "upload_limit": -1
+        },
+        "useRegex": false
+    },
+    "Yellowstone": {
+        "addPaused": null,
+        "affectedFeeds": [
+            "https://eztvx.to/ezrss.xml",
+            "https://showrss.info/user/286824.rss?magnets=true&namespaces=true&name=null&quality=null&re=null"
+        ],
+        "assignedCategory": "",
+        "enabled": true,
+        "episodeFilter": "",
+        "ignoreDays": 0,
+        "lastMatch": "",
+        "mustContain": "Yellowstone",
+        "mustNotContain": "",
+        "previouslyMatchedEpisodes": [
+        ],
+        "priority": 0,
+        "savePath": "",
+        "smartFilter": true,
+        "torrentContentLayout": null,
+        "torrentParams": {
+            "category": "",
+            "download_limit": -1,
+            "download_path": "",
+            "inactive_seeding_time_limit": -2,
+            "operating_mode": "AutoManaged",
+            "ratio_limit": -2,
+            "save_path": "",
+            "seeding_time_limit": -2,
+            "share_limit_action": "Default",
+            "skip_checking": false,
+            "ssl_certificate": "",
+            "ssl_dh_params": "",
+            "ssl_private_key": "",
+            "tags": [
+                "media",
+                "TV Shows"
+            ],
+            "upload_limit": -1
+        },
+        "useRegex": false
+    },
+    "NCIS Origins": {
+        "addPaused": null,
+        "affectedFeeds": [
+            "https://eztvx.to/ezrss.xml",
+            "https://showrss.info/user/286824.rss?magnets=true&namespaces=true&name=null&quality=null&re=null"
+        ],
+        "assignedCategory": "",
+        "enabled": true,
+        "episodeFilter": "",
+        "ignoreDays": 0,
+        "lastMatch": "",
+        "mustContain": "NCIS Origins",
+        "mustNotContain": "",
+        "previouslyMatchedEpisodes": [
+        ],
+        "priority": 0,
+        "savePath": "",
+        "smartFilter": true,
+        "torrentContentLayout": null,
+        "torrentParams": {
+            "category": "",
+            "download_limit": -1,
+            "download_path": "",
+            "inactive_seeding_time_limit": -2,
+            "operating_mode": "AutoManaged",
+            "ratio_limit": -2,
+            "save_path": "",
+            "seeding_time_limit": -2,
+            "share_limit_action": "Default",
+            "skip_checking": false,
+            "ssl_certificate": "",
+            "ssl_dh_params": "",
+            "ssl_private_key": "",
+            "tags": [
+                "media",
+                "TV Shows"
+            ],
+            "upload_limit": -1
+        },
+        "useRegex": false
+    },
+    "Landman": {
+        "addPaused": null,
+        "affectedFeeds": [
+            "https://eztvx.to/ezrss.xml",
+            "https://showrss.info/user/286824.rss?magnets=true&namespaces=true&name=null&quality=null&re=null"
+        ],
+        "assignedCategory": "",
+        "enabled": true,
+        "episodeFilter": "",
+        "ignoreDays": 0,
+        "lastMatch": "",
+        "mustContain": "Landman",
+        "mustNotContain": "",
+        "previouslyMatchedEpisodes": [
+        ],
+        "priority": 0,
+        "savePath": "",
+        "smartFilter": true,
+        "torrentContentLayout": null,
+        "torrentParams": {
+            "category": "",
+            "download_limit": -1,
+            "download_path": "",
+            "inactive_seeding_time_limit": -2,
+            "operating_mode": "AutoManaged",
+            "ratio_limit": -2,
+            "save_path": "",
+            "seeding_time_limit": -2,
+            "share_limit_action": "Default",
+            "skip_checking": false,
+            "ssl_certificate": "",
+            "ssl_dh_params": "",
+            "ssl_private_key": "",
+            "tags": [
+                "media",
+                "TV Shows"
+            ],
+            "upload_limit": -1
+        },
+        "useRegex": false
+    },
+    "Matlock": {
+        "addPaused": null,
+        "affectedFeeds": [
+            "https://eztvx.to/ezrss.xml",
+            "https://showrss.info/user/286824.rss?magnets=true&namespaces=true&name=null&quality=null&re=null"
+        ],
+        "assignedCategory": "",
+        "enabled": true,
+        "episodeFilter": "",
+        "ignoreDays": 0,
+        "lastMatch": "",
+        "mustContain": "Matlock",
+        "mustNotContain": "",
+        "previouslyMatchedEpisodes": [
+        ],
+        "priority": 0,
+        "savePath": "",
+        "smartFilter": true,
+        "torrentContentLayout": null,
+        "torrentParams": {
+            "category": "",
+            "download_limit": -1,
+            "download_path": "",
+            "inactive_seeding_time_limit": -2,
+            "operating_mode": "AutoManaged",
+            "ratio_limit": -2,
+            "save_path": "",
+            "seeding_time_limit": -2,
+            "share_limit_action": "Default",
+            "skip_checking": false,
+            "ssl_certificate": "",
+            "ssl_dh_params": "",
+            "ssl_private_key": "",
+            "tags": [
+                "media",
+                "TV Shows"
+            ],
+            "upload_limit": -1
+        },
+        "useRegex": false
+    },
+    "Blue Bloods": {
+        "addPaused": null,
+        "affectedFeeds": [
+            "https://eztvx.to/ezrss.xml",
+            "https://showrss.info/user/286824.rss?magnets=true&namespaces=true&name=null&quality=null&re=null"
+        ],
+        "assignedCategory": "",
+        "enabled": true,
+        "episodeFilter": "",
+        "ignoreDays": 0,
+        "lastMatch": "",
+        "mustContain": "Blue Bloods",
+        "mustNotContain": "",
+        "previouslyMatchedEpisodes": [
+        ],
+        "priority": 0,
+        "savePath": "",
+        "smartFilter": true,
+        "torrentContentLayout": null,
+        "torrentParams": {
+            "category": "",
+            "download_limit": -1,
+            "download_path": "",
+            "inactive_seeding_time_limit": -2,
+            "operating_mode": "AutoManaged",
+            "ratio_limit": -2,
+            "save_path": "",
+            "seeding_time_limit": -2,
+            "share_limit_action": "Default",
+            "skip_checking": false,
+            "ssl_certificate": "",
+            "ssl_dh_params": "",
+            "ssl_private_key": "",
+            "tags": [
+                "media",
+                "TV Shows"
+            ],
+            "upload_limit": -1
+        },
+        "useRegex": false
+    }
+}

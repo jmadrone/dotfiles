@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "rclone-mbp-327220",
+  "private_key_id": "8fbffba46ab2e1da60a949e5dbb685dfa824dfa3",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQC9EmkHNT22YSLp\nWV1PJSLj6gkGwWSRy6eC6aYAXSUtyJ2NP/KgH02/RUGSTiEU42ZpYI42AHSSourt\nkGlVJcr5cc5bsA1+6D/4sy8YJ/ERpy39caOjGRYTlEri65aSFVYDdJEXatEYip8W\nIF/03u/5CNss0R1Rw7umDUYQcU+OEXFaEfu4OeuPzjJnB5ExmWCfmTO1oIWjPpIX\nnfMz7CNuhn5s4mRf45kxJTFvp52tTfbSN9rtvds8pM+jGxssKmb/in0rQcD9A99m\nyhN/G1tJlCpMfEpuYvW2hkbQi0L7nJ4a8sY4kz1NH/9ILAmrsRgs8nlGVgxyZ6LZ\n5jpp1VUZAgMBAAECggEAF/UMvN6TVsLhKcCVO7GWGwYCex98hE18s3BdWeoeNg/C\nXZhZlc4m9lJVYtn72XSPpfuXmXfI+Emky1Gt9HLo+17fHywO0bf7tHd+mKjQTtnS\n+yxv59CGb8MDEtTM4UQggCiVjT+Phh9j1Wm9xD6OxAyfZQLhnFouXUs3nQlr41wn\ng0HbAx/69AcXssd5Qr7/kaKmhRFTjS8/e8qqT6QtGfaZRfCknE48JCegfHqyG7S3\n/DW9FAo2egCUDrouaUwK9FkwJooKdXBEAHCt18W+Jd255YodxL7DGXOUVCV1ZCCb\nj0iaJwoIkBlXzFjmbxxMVJqTMSuUNqiqhkq9xqEYRwKBgQDupADW3QZPUdZmjNSV\noIyMvHWBKcg88QJnt3RVGtmNjOFROhWEaoHmZQCLpISwJyYR6JLQQDwtgOXu7m3D\nMdAfx5lb9/Jp9UM+brRmWJo7MxE5Z4/ABI4AzGODayGxmYdSAZeps7N7ZW42SNYc\nM5Kq9vrCgdX4BK/RXfTb+EKGCwKBgQDK01Tzr7V0e+484bNQFwUpkbyb+9o85Nmv\njlqEiYxvfxO+aXyGh0OWGu5VtaoRynxvDf/SLAKYY4JkPn8D7STxfU+BEsUzQVEP\nMBk5Hu76VfgugYDtKNCcD9+4KFVdPC9608Rn81cQOsIMzsp/8UffE6DWQX/Dy8hl\n5rZThjd76wKBgGu3n6Fc1xJKsGpNu09mzspf7vJEd9v6Ncm3J02a9wRLyRCvFTNW\nGBh1Es/1jOcuZKLExjA2LnOjsSYufWEURQtzPygiPUvSp22w7sEb0VJTdLzioCJe\na/K0T17spqLR2CEOEvVI5gUW/a6HJg5IwTVmkj3l+T0gcHQi4vm/j9eNAoGAGZtI\ntGNQk146G7GbA9eELVVa7I6FZP63hPSB9Q2wjzsJ8RY8RHe7Tq4jvOpsiEZ6I0Mv\nMwefZEHb6nABdStxaJObf/4wq2Hpq/M0nAONxEkqRiTPdCGdBLb0Vbmx3U2F6Qnn\nWABe04u3iAprgm+h1UYTHjmyubN2n3bbOfxN8PUCgYBjdMluN597DRCijmRrha+F\n7Pcu9kDpPHmzr+J/k/7+MAoeNUpEvONRsIJQ/yDW+FDrDnPU2nEffQeWbZd5MyMQ\nznUHaANRPRtHZN2nuWfejlRPHupVJccbuTaM9CBcytxwJrW21tVRujs6AW9JGMfm\ncBwlvSxzteiagUR4ufVeaw==\n-----END PRIVATE KEY-----\n",
+  "client_email": "emsec-service-account@rclone-mbp-327220.iam.gserviceaccount.com",
+  "client_id": "109581633943728270352",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/emsec-service-account%40rclone-mbp-327220.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}
