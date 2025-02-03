@@ -15,3 +15,5 @@ Thumbs.db
 
 migration/aws/credentials/*
 migration/azure/azureProfile.json
+migration/config/rclone/emsec-google-drive-sa.json
+migration/config/rclone/msgdrive.json
