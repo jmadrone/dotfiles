@@ -97,5 +97,10 @@ brew install tree
 brew install vbindiff
 brew install zopfli
 
+# encryption
+brew install age
+brew install age-pugin-yubikey
+brew install rclone
+
 # Remove outdated versions from the cellar.
 brew cleanup
