@@ -14,3 +14,4 @@ Thumbs.db
 .Trashes
 
 migration/aws/credentials/*
+migration/azure/azureProfile.json
