@@ -13,6 +13,7 @@ Thumbs.db
 .Spotlight-V100
 .Trashes
 
+# Files with secrets
 migration/aws/credentials/*
 migration/azure/azureProfile.json
 migration/config/rclone/emsec-google-drive-sa.json

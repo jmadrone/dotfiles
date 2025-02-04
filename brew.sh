@@ -102,5 +102,20 @@ brew install age
 brew install age-pugin-yubikey
 brew install rclone
 
+# Yubikeys
+brew install ykman
+brew install yubico-piv-tool
+brew install yubikey-agent
+brew install ykpers
+
+# my tools
+brew install smartmontools
+brew install shfmt
+brew install rclone
+brew install rsync
+brew install shellcheck
+brew install pinentry-mac
+
+
 # Remove outdated versions from the cellar.
 brew cleanup
