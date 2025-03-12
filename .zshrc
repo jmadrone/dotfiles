@@ -8,6 +8,10 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
+# Source secrets file
+if [ -f ~/.zsh_secrets ]; then
+  source ~/.zsh_secrets
+fi
 
 NOW="$(date +\%F-\%H:\%M:\%S)"
 TODAY="$(date +\%F)"
@@ -242,8 +246,7 @@ else
   export EDITOR='code -n -w'
 fi
 
-# Set OpenAI API Key
-export ZSH_ASK_API_KEY="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"
+
 
 # GnuPG Settings are now in `${ZSH_CUSTOM}/gnupg.zsh`
 export GPG_TTY=$TTY
@@ -357,8 +360,7 @@ if command -v rbenv 1>/dev/null 2>&1; then
   eval "$(rbenv init - zsh)"
 fi
 
-# Homebrew GitHub API Token
-export HOMEBREW_GITHUB_API_TOKEN=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
+
 
 
 
