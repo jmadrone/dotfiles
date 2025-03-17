@@ -295,6 +295,9 @@ alias azureconfig="code -n ~/.azure/"
 # GoCardless Alias to overwrite the default
 alias gc='gocardless '
 
+# Alias for age-plugin-yubikey
+alias apy="age-plugin-yubikey"
+
 
 # Brewalias Alfred Workflow
 alias brewalias='/usr/bin/osascript -e "tell application id \"com.runningwithcrayons.Alfred\" to run trigger \"build\" in workflow \"com.alfredapp.aliashomebrewapps\""'
