@@ -404,3 +404,6 @@ eval
 
 # Zapier autocomplete setup
 ZAPIER_AC_ZSH_SETUP_PATH=/Users/josh/Library/Caches/zapier/autocomplete/zsh_setup && test -f $ZAPIER_AC_ZSH_SETUP_PATH && source $ZAPIER_AC_ZSH_SETUP_PATH; # zapier autocomplete setup
+
+# Created by `pipx` on 2025-03-27 08:18:05
+export PATH="$PATH:/Users/josh/.local/bin"
