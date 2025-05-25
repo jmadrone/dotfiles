@@ -237,6 +237,8 @@ export HOMEBREW_NO_ANALYTICS=1
 export HOMEBREW_NO_AUTO_UPDATE=1
 export HOMEBREW_NO_INSECURE_REDIRECT=1
 
+export HOMEBREW_GITHUB_API_TOKEN="op://Private/Homebrew Github API Token/Section_kisnbqsrqfhkygcuywhxkbab24/token"
+
 # You may need to manually set your language environment
 export LANG=en_US.UTF-8
 
