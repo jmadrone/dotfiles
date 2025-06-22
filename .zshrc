@@ -18,7 +18,9 @@ TODAY="$(date +\%F)"
 TIMESTAMP="$(date '+%Y-%m-%d_%H%M%S')"
 
 # Set default GPG key
-KEYID=0xC4066D4674A6EBE7
+#KEYID=0xC4066D4674A6EBE7
+# New GPG key for josh@emeraldsecurity.net
+KEYID=0xA850B6F02A9E45DE
 
 export CLICOLOR=1
 
@@ -94,7 +96,7 @@ plugins=(
   alias-finder
   aws
   azure
-#  brew
+  brew
 #  bgnotify
 #  bundler
   colorize
@@ -141,7 +143,7 @@ plugins=(
 fpath+=${ZSH_CUSTOM:-${ZSH:-~/.oh-my-zsh}/custom}/plugins/zsh-completions/src
 
 # Setup mac-zsh-completions
-#fpath=( ~$ZSH_CUSTOM/plugins/mac-zsh-completions/mac-zsh-completions/completions $fpath )
+fpath=( ~$ZSH_CUSTOM/plugins/mac-zsh-completions/mac-zsh-completions/completions $fpath )
 
 # Setup osx-zsh-completions manually installed in $ZSH_CUSTOM/plugins
 fpath=( ~$ZSH_CUSTOM/plugins/osx-zsh-completions $fpath )
@@ -171,10 +173,10 @@ source $ZSH/oh-my-zsh.sh
 # Note that the bulk of the configuration for ssh-agent plugin is in the README file for the plugin
 zstyle :omz:plugins:ssh-agent quiet yes
 zstyle :omz:plugins:ssh-agent lazy yes
-zstyle :omz:plugins:ssh-agent agent-forwarding yes
+#zstyle :omz:plugins:ssh-agent agent-forwarding yes
 zstyle :omz:plugins:ssh-agent identities ~/.config/ssh/{id_ed25519.pub,jm_id_ed25519.pub,rsync_id_rsa,id_ed25519_openpgp.pub}
 # which can be simplified to
-#zstyle :omz:plugins:ssh-agent identities ~/.ssh/{id_ed25519_sk_5716,id_ed25519_sk_7061}
+zstyle :omz:plugins:ssh-agent identities ~/.ssh/{id_ed25519_sk_rk_Yubikey6448,id_ed25519_sk_rk_Yubikey1555,id_ed25519_sk_5716,op_id_ed25519.pub,jm_id_ed25519.pub,op_id_rsa.pub,id_rsa.pub}
 # Use macOS Keychain to store passphrases for use when loading keys into agent
 zstyle :omz:plugins:ssh-agent ssh-add-args --apple-load-keychain
 
@@ -324,16 +326,25 @@ path "/opt/homebrew/bin"
 path "/opt/homebrew/sbin"
 path "/usr/local/sbin"
 path "/usr/local/bin"
+# Added by GPG Suite
 #path "/usr/local/MacGPG2/bin" #GPG Tools for Mac path to the binaries
 path "/usr/sbin"
 path "/usr/bin"
 path "/sbin"
 path "/bin"
+# Added by Josh M (personal scripts and such)
 path "/Users/josh/bin"
 #path "/Users/josh/.scripts"
+# Manually set Python version
 #path "/opt/homebrew/opt/python@3.10/bin"
+# Added by MacVim
 path "/Applications/MacVim.app/Contents/bin"
+# Added by jenv to manage multiple Java versions
 path "$HOME/.jenv/bin"
+# Added by Microsoft .NET SDK Tools
+path "$HOME/.dotnet/tools"
+# Added by pipx
+path /Users/josh/.local/bin
 
 ############################### set variables #################################
 
@@ -361,7 +372,7 @@ if command -v pyenv 1>/dev/null 2>&1; then
   eval "$(pyenv init -)"
 fi
 
-# Manage multiple ruby versions with `rbenv`
+# Manage multiple Ruby versions with `rbenv`
 if command -v rbenv 1>/dev/null 2>&1; then
   eval "$(rbenv init - zsh)"
 fi
@@ -406,6 +417,3 @@ eval
 
 # Zapier autocomplete setup
 ZAPIER_AC_ZSH_SETUP_PATH=/Users/josh/Library/Caches/zapier/autocomplete/zsh_setup && test -f $ZAPIER_AC_ZSH_SETUP_PATH && source $ZAPIER_AC_ZSH_SETUP_PATH; # zapier autocomplete setup
-
-# Created by `pipx` on 2025-03-27 08:18:05
-export PATH="$PATH:/Users/josh/.local/bin"
