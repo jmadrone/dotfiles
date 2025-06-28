@@ -4,9 +4,20 @@
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+# First, evaluate the username outside the if statement
+USERNAME=$(print -P "%n")
+
+# Use the evaluated variable in the path
+CACHE_FILE="${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${USERNAME}.zsh"
+
+# Check if the file is readable
+if [[ -r "$CACHE_FILE" ]]; then
+  source "$CACHE_FILE"
 fi
+
+#if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+#  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+#fi
 
 # Source secrets file
 if [ -f ~/.zsh_secrets ]; then
@@ -143,10 +154,12 @@ plugins=(
 fpath+=${ZSH_CUSTOM:-${ZSH:-~/.oh-my-zsh}/custom}/plugins/zsh-completions/src
 
 # Setup mac-zsh-completions
-fpath=( ~$ZSH_CUSTOM/plugins/mac-zsh-completions/mac-zsh-completions/completions $fpath )
+#fpath=( ~$ZSH_CUSTOM/plugins/mac-zsh-completions/mac-zsh-completions/completions $fpath )
+fpath=( "${ZSH_CUSTOM}/plugins/mac-zsh-completions/mac-zsh-completions/completions" $fpath )
 
 # Setup osx-zsh-completions manually installed in $ZSH_CUSTOM/plugins
-fpath=( ~$ZSH_CUSTOM/plugins/osx-zsh-completions $fpath )
+#fpath=( ~$ZSH_CUSTOM/plugins/osx-zsh-completions $fpath )
+fpath=( "${ZSH_CUSTOM}/plugins/osx-zsh-completions" $fpath )
 
 # Setup zsh-autocomplete installed with Homebrew
 source /opt/homebrew/share/zsh-autocomplete/zsh-autocomplete.plugin.zsh
@@ -174,7 +187,7 @@ source $ZSH/oh-my-zsh.sh
 zstyle :omz:plugins:ssh-agent quiet yes
 zstyle :omz:plugins:ssh-agent lazy yes
 #zstyle :omz:plugins:ssh-agent agent-forwarding yes
-zstyle :omz:plugins:ssh-agent identities ~/.config/ssh/{id_ed25519.pub,jm_id_ed25519.pub,rsync_id_rsa,id_ed25519_openpgp.pub}
+#zstyle :omz:plugins:ssh-agent identities ~/.config/ssh/{id_ed25519.pub,jm_id_ed25519.pub,rsync_id_rsa,id_ed25519_openpgp.pub}
 # which can be simplified to
 zstyle :omz:plugins:ssh-agent identities ~/.ssh/{id_ed25519_sk_rk_Yubikey6448,id_ed25519_sk_rk_Yubikey1555,id_ed25519_sk_5716,op_id_ed25519.pub,jm_id_ed25519.pub,op_id_rsa.pub,id_rsa.pub}
 # Use macOS Keychain to store passphrases for use when loading keys into agent
@@ -188,7 +201,7 @@ zstyle ':omz:plugins:alias-finder' autoload yes # disabled by default
 
 # Completions configuration
 # workaround for "do you wish to see all x possibilities" prompt eating input
-zstyle ':completion:*' menu select=long
+#zstyle ':completion:*' menu select=long
 
 # Use cache for commands which use it
 
@@ -291,16 +304,9 @@ alias zshconfig="code -n ~/.zshrc"
 alias zshcustom="code -n ${ZSH_CUSTOM}"
 alias ohmyzsh="code -n ~/.oh-my-zsh"
 alias sshconfig="code -n ~/.ssh/config"
-alias aliasconfig="code -n ${ZSH_CUSTOM/aliases.zsh}"
+alias aliasconfig="code -n ${ZSH_CUSTOM}/aliases.zsh"
 alias awsconfig="code -n ~/.aws/"
 alias azureconfig="code -n ~/.azure/"
-
-
-# GoCardless Alias to overwrite the default
-alias gc='gocardless '
-
-# Alias for age-plugin-yubikey
-alias apy="age-plugin-yubikey"
 
 
 # Brewalias Alfred Workflow
@@ -321,7 +327,7 @@ function path() {
   fi
 }
 
-export PATH=""
+#export PATH=""
 path "/opt/homebrew/bin"
 path "/opt/homebrew/sbin"
 path "/usr/local/sbin"
@@ -345,11 +351,12 @@ path "$HOME/.jenv/bin"
 path "$HOME/.dotnet/tools"
 # Added by pipx
 path /Users/josh/.local/bin
+# Use Homebrew's OpenSSH
+#path /opt/homebrew/opt/openssh/bin
 
 ############################### set variables #################################
 
-# Use Homebrew's OpenSSH
-#export PATH=1/bin:$PATH
+
 
 # Set Java version manually
 # - liberica-jdk8-full is Java 8
@@ -378,9 +385,6 @@ if command -v rbenv 1>/dev/null 2>&1; then
 fi
 
 
-
-
-
 # Apple Developer Xcode Command Line Tools SDK
 export SDKROOT=$(xcrun --show-sdk-path)
 
@@ -406,14 +410,21 @@ AWS_PROFILE_STATE_ENABLED=true
 
 # Configure `fzf` fuzzy search
 #[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-source <(fzf --zsh)
+#source <(fzf --zsh)
+if command -v fzf >/dev/null; then
+  source <(fzf --zsh)
+fi
 
 # Source Homebrew installed zsh-autosuggestions per instructions
-source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+#source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+source "$(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
 
-# Source Homebrew installed zsh-sntax-highlighting per instructions
-source $(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+# Source Homebrew installed zsh-syntax-highlighting per instructions
+#source $(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source "$(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
 eval
 
 # Zapier autocomplete setup
-ZAPIER_AC_ZSH_SETUP_PATH=/Users/josh/Library/Caches/zapier/autocomplete/zsh_setup && test -f $ZAPIER_AC_ZSH_SETUP_PATH && source $ZAPIER_AC_ZSH_SETUP_PATH; # zapier autocomplete setup
+#ZAPIER_AC_ZSH_SETUP_PATH=/Users/josh/Library/Caches/zapier/autocomplete/zsh_setup && test -f $ZAPIER_AC_ZSH_SETUP_PATH && source $ZAPIER_AC_ZSH_SETUP_PATH; # zapier autocomplete setup
+ZAPIER_AC_ZSH_SETUP_PATH="$HOME/Library/Caches/zapier/autocomplete/zsh_setup"
+[[ -f "$ZAPIER_AC_ZSH_SETUP_PATH" ]] && source "$ZAPIER_AC_ZSH_SETUP_PATH"
