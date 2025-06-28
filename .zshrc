@@ -428,3 +428,11 @@ source "$(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
 #source $(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 source "$(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
 eval
+<<<<<<< HEAD
+=======
+
+# Zapier autocomplete setup
+#ZAPIER_AC_ZSH_SETUP_PATH=/Users/josh/Library/Caches/zapier/autocomplete/zsh_setup && test -f $ZAPIER_AC_ZSH_SETUP_PATH && source $ZAPIER_AC_ZSH_SETUP_PATH; # zapier autocomplete setup
+ZAPIER_AC_ZSH_SETUP_PATH="$HOME/Library/Caches/zapier/autocomplete/zsh_setup"
+[[ -f "$ZAPIER_AC_ZSH_SETUP_PATH" ]] && source "$ZAPIER_AC_ZSH_SETUP_PATH"
+>>>>>>> 40c523c (Major changes to zshrc)
