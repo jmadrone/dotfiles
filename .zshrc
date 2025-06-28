@@ -402,6 +402,11 @@ AWS_PROFILE_STATE_ENABLED=true
 
 ####################### manually installed zsh plugins ########################
 
+# Zapier autocomplete setup
+#ZAPIER_AC_ZSH_SETUP_PATH=/Users/josh/Library/Caches/zapier/autocomplete/zsh_setup && test -f $ZAPIER_AC_ZSH_SETUP_PATH && source $ZAPIER_AC_ZSH_SETUP_PATH; # zapier autocomplete setup
+ZAPIER_AC_ZSH_SETUP_PATH="$HOME/Library/Caches/zapier/autocomplete/zsh_setup"
+[[ -f "$ZAPIER_AC_ZSH_SETUP_PATH" ]] && source "$ZAPIER_AC_ZSH_SETUP_PATH"
+
 # Uncomment the following line to permanently Setup iTerm2 Shell Integration (instead of using "Autom Setup checkbox")
 #test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
@@ -423,8 +428,3 @@ source "$(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
 #source $(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 source "$(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
 eval
-
-# Zapier autocomplete setup
-#ZAPIER_AC_ZSH_SETUP_PATH=/Users/josh/Library/Caches/zapier/autocomplete/zsh_setup && test -f $ZAPIER_AC_ZSH_SETUP_PATH && source $ZAPIER_AC_ZSH_SETUP_PATH; # zapier autocomplete setup
-ZAPIER_AC_ZSH_SETUP_PATH="$HOME/Library/Caches/zapier/autocomplete/zsh_setup"
-[[ -f "$ZAPIER_AC_ZSH_SETUP_PATH" ]] && source "$ZAPIER_AC_ZSH_SETUP_PATH"
