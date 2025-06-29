@@ -189,7 +189,7 @@ zstyle :omz:plugins:ssh-agent lazy yes
 #zstyle :omz:plugins:ssh-agent agent-forwarding yes
 #zstyle :omz:plugins:ssh-agent identities ~/.config/ssh/{id_ed25519.pub,jm_id_ed25519.pub,rsync_id_rsa,id_ed25519_openpgp.pub}
 # which can be simplified to
-zstyle :omz:plugins:ssh-agent identities ~/.ssh/{id_ed25519_sk_rk_Yubikey6448,id_ed25519_sk_rk_Yubikey1555,id_ed25519_sk_5716,op_id_ed25519.pub,jm_id_ed25519.pub,op_id_rsa.pub,id_rsa.pub}
+zstyle :omz:plugins:ssh-agent identities ~/.ssh/{id_ed25519_sk_rk_Yubikey6448,id_ed25519_sk_rk_Yubikey1555,id_ed25519_sk_5716,op_id_ed25519.pub,jm_id_ed25519.pub,op_id_rsa.pub}
 # Use macOS Keychain to store passphrases for use when loading keys into agent
 zstyle :omz:plugins:ssh-agent ssh-add-args --apple-load-keychain
 
