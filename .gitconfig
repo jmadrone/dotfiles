@@ -38,3 +38,5 @@
 	user = josh
 [tag]
 	forceSignAnnotated = false
+[http]
+	postBuffer = 524288000
