@@ -201,6 +201,16 @@ zstyle ':completion:*' keep-prefix true
 # Key bindings
 bindkey '^H' backward-kill-word
 
+#bindkey '\e[A' up-line-or-history
+#bindkey '\e[B' down-line-or-history
+# Use Bash style history search
+bindkey '^[[1;5A' history-beginning-search-backward
+bindkey '^[[1;5B' history-beginning-search-forward
+# Use Arrow keys to search history
+#bindkey '\e[A' history-beginning-search-backward
+#bindkey '\e[B' history-beginning-search-forward
+
+
 # ZSH Colorize configuration
 ZSH_COLORIZE_TOOL=chroma
 ZSH_COLORIZE_CHROMA_FORMATTER=terminal256
