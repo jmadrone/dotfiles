@@ -131,6 +131,9 @@ fpath=( "${ZSH_CUSTOM}/plugins/osx-zsh-completions" $fpath )
 # Setup zsh-autocomplete installed with Homebrew
 source /opt/homebrew/share/zsh-autocomplete/zsh-autocomplete.plugin.zsh
 
+# Add custom completions directory to fpath
+fpath=( ~/oh-my-zsh/custom-completions $fpath )
+
 # Setup completions to work with system zsh
 #if ((!${fpath[(I) / opt / homebrew / share / zsh / site - functions]})); then
 #  FPATH=/opt/homebrew/share/zsh/site-functions:$FPATH

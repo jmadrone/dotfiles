@@ -38,7 +38,7 @@
 	editor = code --wait
 	excludesfile = /Users/josh/.gitignore_global
 [github]
-	user = josh
+	user = jmadrone
 [tag]
 	forceSignAnnotated = false
 [http]
