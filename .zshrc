@@ -239,8 +239,11 @@ else
   export EDITOR='code -n -w'
 fi
 
+# AWS CLI Configuration
 # Enable aws-cli auto-complete
 AWS_CLI_AUTO_PROMPT=on
+# Set AWS_PROFILE to persist across terminal sessions
+AWS_PROFILE_STATE_ENABLED=true
 
 ################################### aliases ###################################
 # Set personal aliases, overriding those provided by oh-my-zsh libs,
@@ -351,8 +354,7 @@ source "/Users/josh/.acme.sh/acme.sh.env"
 # Rclone_jobber shortcut
 export rclone_jobber="/Users/josh/Developer/rclone_jobber"
 
-# Set AWS_PROFILE to persist across terminal sessions
-AWS_PROFILE_STATE_ENABLED=true
+
 
 
 ####################### manually installed zsh plugins ########################

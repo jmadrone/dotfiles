@@ -80,33 +80,33 @@ If you already store your configuration/dotfiles in a ~[Git repository](https:/
 - And that your source repository ignores the folder where you'll clone it, so that you don't create weird recursion problems:
 
   ```sh
-  ⠀echo ".dotfiles" >> .gitignore
+  echo ".dotfiles" >> .gitignore
   ```
 
 - Now clone your dotfiles into a ~[bare](http://www.saintsjd.com/2011/01/what-is-a-bare-git-repository/)~ repository in a "dot" folder of your $HOME:
 
   ```sh
-  ⠀git clone --bare https://github.com/jmadrone/dotfiles.git $HOME/.dotfiles
+  git clone --bare https://github.com/jmadrone/dotfiles.git $HOME/.dotfiles
   ```
 
 - Define the alias in the current shell scope:
 
   ```sh
-  ⠀alias dotfiles='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
+  alias dotfiles='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
   ```
 
 - Checkout the actual content from the bare repository to your $HOME:
 
   ```sh
-  ⠀dotfiles checkout
+  dotfiles checkout
   ```
 
 - The step above might fail with a message like:
 
   ```sh
-  ⠀error: The following untracked working tree files would be overwritten by checkout:
-      .bashrc
-      .gitignore
+  error: The following untracked working tree files would be overwritten by checkout:
+     .bashrc
+     .gitignore
   Please move or remove them before you can switch branches.
 
   Aborting
@@ -123,13 +123,13 @@ If you already store your configuration/dotfiles in a ~[Git repository](https:/
 - Re-run the check out if you had problems:
 
   ```sh
-  ⠀dotfiles checkout
+  dotfiles checkout
   ```
 
 - Set the flag `showUntrackedFiles to no` on this specific (local) repository:
 
   ```sh
-  ⠀dotfiles config --local status.showUntrackedFiles no
+  dotfiles config --local status.showUntrackedFiles no
   ```
 
 - You're done, from now on you can now type config commands to add and update your dotfiles:

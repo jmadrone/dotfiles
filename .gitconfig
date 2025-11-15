@@ -1,7 +1,6 @@
 [user]
 	name = Josh Madrone
 	email = josh@madrone.me
-	signingkey = key::ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDTac3aTv3wU2huGovVZp9XDeyLiEEy+4Pqw/N/EcCm3qz+kfzokk3+DQozYilxwlkcJgm20Dz5ZU1V7O6aSax8aurSXHN9Y8U3K4tqqgIA4rmOGWopfthVXkCkq8pV7osf1ONw88ycOCI3aN8kmyiJcqIbRey+Etz3ucEGtrOrywf2HDnNFpJuDX2FZ6LjHaEAFgJjaCOyErtRLIzQ4gBfP5vmG7IL1l6IC72fQFs4sNcy1EGupPZ0RadcG101dffpFT3MqA3yzUytaS3k2GwL8fjXA4p6qICP5wh4RYKz1V+qXm6KS8colsYmonHlugLeQXIDvSCfUmse0mSImj2J89me5hKVoyWGmm3dPFQK5dL7jCiYbtVJkbUUumEl2bmKxZ5bJydOa7qbcvBXoD0Ye3ZHzFF5232lp0sk50A0vhi9npH887RNGn4P7Km8XOnM2fGsqqwlrzbJ0HuVv7dH0eTSDE+nmujkOgH4r35TVD3OC7lRwCUasUB01wzOu5ilh158b0WRV0Bou18v5VT2hH461apW4/+carONSTfE9nr6GCTDyDH2opFRVBZc/6YdsiXaQDEGQ5ciX+/7GJQi0faMkNhNXl0sRO3uIWLUUZoGwf9hteEumzic9ZUzvvKA60dhKangRMLPqQ0OLAeXGBqV+fMdzWxgvyQg16FcGw== op_id_rsa
 [mergetool]
 	keepBackup = true
 	prompt = false
@@ -13,10 +12,9 @@
 	cmd = ksdiff --merge --output \"$MERGED\" --base \"$BASE\" -- \"$LOCAL\" --snapshot \"$REMOTE\" --snapshot
 	trustExitCode = true
 [commit]
-	gpgSign = true
+	gpgsign = false
 [gpg]
 	program = /opt/homebrew/bin/gpg
-	format = ssh
 [filter "lfs"]
 	clean = git-lfs clean -- %f
 	smudge = git-lfs smudge -- %f
@@ -33,7 +31,7 @@
 	tool = Kaleidoscope
 [gpg "ssh"]
 	program = /Applications/1Password.app/Contents/MacOS/op-ssh-sign
-	allowedSignersFile = 
+	allowedsignersfile = 
 [core]
 	editor = code --wait
 	excludesfile = /Users/josh/.gitignore_global
