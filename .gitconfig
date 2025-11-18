@@ -1,6 +1,7 @@
 [user]
 	name = Josh Madrone
 	email = josh@madrone.me
+	signingKey = 3FDF427CB02A7EFAB903CC0BB381129334885EE7
 [mergetool]
 	keepBackup = true
 	prompt = false
@@ -12,9 +13,10 @@
 	cmd = ksdiff --merge --output \"$MERGED\" --base \"$BASE\" -- \"$LOCAL\" --snapshot \"$REMOTE\" --snapshot
 	trustExitCode = true
 [commit]
-	gpgsign = false
+	gpgSign = false
 [gpg]
 	program = /opt/homebrew/bin/gpg
+	format = openpgp
 [filter "lfs"]
 	clean = git-lfs clean -- %f
 	smudge = git-lfs smudge -- %f
@@ -31,7 +33,7 @@
 	tool = Kaleidoscope
 [gpg "ssh"]
 	program = /Applications/1Password.app/Contents/MacOS/op-ssh-sign
-	allowedsignersfile = 
+	allowedSignersFile = 
 [core]
 	editor = code --wait
 	excludesfile = /Users/josh/.gitignore_global
