@@ -1,0 +1,115 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+CLIP_TIMEOUT=45
+B32_DEFAULT_LEN=32
+B32_MIN_LEN=12
+DICE_DEFAULT_WORDS=5
+DICE_MIN_WORDS=3
+DICT="${DICT:-/usr/share/dict/words}"
+
+# ----- Clipboard detection -----
+if command -v pbcopy >/dev/null 2>&1; then
+  CLIP_CMD="pbcopy"
+elif command -v wl-copy >/dev/null 2>&1; then
+  CLIP_CMD="wl-copy"
+elif command -v xclip >/dev/null 2>&1; then
+  CLIP_CMD="xclip -selection clipboard"
+elif command -v xsel >/dev/null 2>&1; then
+  CLIP_CMD="xsel --clipboard --input"
+else
+  echo "❌ No clipboard tool found (pbcopy / wl-copy / xclip / xsel)" >&2
+  exit 1
+fi
+
+copy_clip() { case "$CLIP_CMD" in
+  "pbcopy") pbcopy ;;
+  "wl-copy") wl-copy ;;
+  "xclip -selection clipboard") xclip -selection clipboard ;;
+  "xsel --clipboard --input") xsel --clipboard --input ;;
+esac }
+
+clear_clip() { sleep "$CLIP_TIMEOUT"; printf "" | copy_clip; }
+
+# ----- Generators -----
+gen_base64()   { openssl rand -base64 24; }
+gen_url()      { openssl rand -base64 24 | tr '+/' '-_' | tr -d '='; }
+gen_base32()   { LC_ALL=C tr -dc 'A-Z2-7' </dev/urandom | head -c "$1"; }
+gen_phrase() {
+  local n="$1"
+  if [[ ! -f "$DICT" ]]; then
+    echo "❌ Diceware wordlist not found: $DICT" >&2; exit 1
+  fi
+  local words
+  words="$(shuf -n"$n" "$DICT" | tr -d "'" | tr '\n' '-' | sed 's/-$//')"
+  if grep -q '[0-9]' <<<"$words"; then printf "%s" "$words"
+  else printf "%s%s" "$words" $((RANDOM % 10))
+  fi
+}
+
+# ----- Runner -----
+run_gen() {
+  local pw="$1"
+  [[ -z "$pw" ]] && { echo "❌ Generation failed (empty output)"; exit 1; }
+  printf "%s" "$pw" | copy_clip
+  clear_clip & disown || true
+  echo "✔ Copied to clipboard via ${CLIP_CMD}. Will auto-clear in ${CLIP_TIMEOUT}s."
+}
+
+# ----- Menu -----
+menu() {
+  echo ""
+  echo "Password Generator"
+  echo "------------------"
+  echo "1) Base64"
+  echo "2) URL-safe"
+  echo "3) Base32 (32 chars)"
+  echo "4) Diceware (5 words)"
+  echo ""
+  read -rp "Select> " c
+  case "$c" in
+    1) run_gen "$(gen_base64)" ;;
+    2) run_gen "$(gen_url)" ;;
+    3) run_gen "$(gen_base32 "$B32_DEFAULT_LEN")" ;;
+    4) run_gen "$(gen_phrase "$DICE_DEFAULT_WORDS")" ;;
+    *) echo "❌ Invalid selection" >&2; exit 1 ;;
+  esac
+}
+
+# ----- Arg Mode -----
+if [[ $# -eq 0 ]]; then menu; exit 0; fi
+
+mode="$1"; shift || true
+case "$mode" in
+  base32)
+    len="$B32_DEFAULT_LEN"
+    if [[ $# -gt 0 ]]; then
+      [[ "$1" == "--length" ]] || { echo "❌ Only --length allowed after base32"; exit 1; }
+      shift; [[ "$1" =~ ^[0-9]+$ ]] || { echo "❌ --length must be integer"; exit 1; }
+      (( $1 < B32_MIN_LEN )) && { echo "❌ --length too small (min $B32_MIN_LEN, got $1)."; exit 1; }
+      len="$1"
+    fi
+    run_gen "$(gen_base32 "$len")"
+    ;;
+  base64)
+    run_gen "$(gen_base64)"
+    ;;
+  url)
+    run_gen "$(gen_url)"
+    ;;
+  phrase)
+    words="$DICE_DEFAULT_WORDS"
+    if [[ $# -gt 0 ]]; then
+      [[ "$1" == "--words" ]] || { echo "❌ Only --words allowed after phrase"; exit 1; }
+      shift; [[ "$1" =~ ^[0-9]+$ ]] || { echo "❌ --words must be integer"; exit 1; }
+      (( $1 < DICE_MIN_WORDS )) && { echo "❌ --words too small (min $DICE_MIN_WORDS, got $1)."; exit 1; }
+      words="$1"
+    fi
+    run_gen "$(gen_phrase "$words")"
+    ;;
+  *)
+    echo "❌ Unknown mode: $mode"
+    exit 1
+    ;;
+esac
+

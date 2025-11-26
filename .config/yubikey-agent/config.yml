@@ -1,0 +1,5 @@
+# ~/.config/yubikey-agent/config.yml
+pin: "072120"  # change if you’ve set a custom PIV PIN
+# Optional: restrict to specific YubiKey serials
+# serials:
+#   - 32741555
