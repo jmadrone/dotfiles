@@ -239,3 +239,4 @@ alias brewery="brew update && brew upgrade && brew cleanup"
 ### ────────────────────────────────────────────────────────────────────────────
 
 [[ -f ~/.p10k.zsh ]] && source ~/.p10k.zsh
+export PATH="$HOME/.local/bin:$PATH"
