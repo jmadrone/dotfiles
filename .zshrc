@@ -52,6 +52,52 @@ sshagent-info() {
   echo "Detected agent: $SSH_AGENT_STATUS"
 }
 
+### ────────────────────────────────────────────────────────────────────────────
+### 2.1 SSH Agent Switching (manual override)
+### ────────────────────────────────────────────────────────────────────────────
+
+# 1Password SSH agent socket (macOS default)
+_ssh_sock_1password() {
+  local sock="$HOME/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock"
+  [[ -S "$sock" ]] && echo "$sock"
+}
+
+# System ssh-agent socket (launchd-managed)
+_ssh_sock_system() {
+  launchctl getenv SSH_AUTH_SOCK 2>/dev/null
+}
+
+sshagent-use-1password() {
+  local sock="$(_ssh_sock_1password)"
+
+  if [[ -z "$sock" ]]; then
+    echo "❌ 1Password SSH agent socket not found"
+    return 1
+  fi
+
+  export SSH_AUTH_SOCK="$sock"
+  detect_ssh_agent
+  echo "✅ SSH agent set to: $SSH_AGENT_STATUS"
+}
+
+sshagent-use-system() {
+  local sock="$(_ssh_sock_system)"
+
+  if [[ -z "$sock" ]]; then
+    echo "❌ System ssh-agent not available"
+    return 1
+  fi
+
+  export SSH_AUTH_SOCK="$sock"
+  detect_ssh_agent
+  echo "✅ SSH agent set to: $SSH_AGENT_STATUS"
+}
+
+sshagent-disable() {
+  unset SSH_AUTH_SOCK
+  SSH_AGENT_STATUS="none"
+  echo "🚫 SSH agent disabled"
+}
 
 ### ────────────────────────────────────────────────────────────────────────────
 ### 3. Oh-My-Zsh Bootstrap (minimal plugin set)
@@ -146,6 +192,7 @@ path "/Applications/MacVim.app/Contents/bin"
 path "$HOME/.jenv/bin"
 path "$HOME/.dotnet/tools"
 path "$HOME/.local/bin"
+path "${ASDF_DATA_DIR:-$HOME/.asdf}/shims"
 
 
 ### ────────────────────────────────────────────────────────────────────────────
@@ -232,6 +279,10 @@ alias awsconfig="code -n ~/.aws/"
 alias azureconfig="code -n ~/.azure/"
 alias brewalias='/usr/bin/osascript -e "tell application id \"com.runningwithcrayons.Alfred\" to run trigger \"build\" in workflow \"com.alfredapp.aliashomebrewapps\""'
 alias brewery="brew update && brew upgrade && brew cleanup"
+alias ssh1p='sshagent-use-1password'
+alias sshsys='sshagent-use-system'
+alias sshoff='sshagent-disable'
+alias sshinfo='sshagent-info'
 
 
 ### ────────────────────────────────────────────────────────────────────────────
@@ -239,3 +290,6 @@ alias brewery="brew update && brew upgrade && brew cleanup"
 ### ────────────────────────────────────────────────────────────────────────────
 
 [[ -f ~/.p10k.zsh ]] && source ~/.p10k.zsh
+
+
+. "$(brew --prefix asdf)/libexec/asdf.sh"
