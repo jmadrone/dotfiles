@@ -7,6 +7,13 @@
 ### 0. Powerlevel10k Instant Prompt (MUST STAY FIRST)
 ### ────────────────────────────────────────────────────────────────────────────
 
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
 USERNAME=$(print -P "%n")
 CACHE_FILE="${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${USERNAME}.zsh"
 [[ -r "$CACHE_FILE" ]] && source "$CACHE_FILE"
@@ -209,16 +216,24 @@ export SDKROOT=$(xcrun --show-sdk-path)
 ### 8. Tools + Environment
 ### ────────────────────────────────────────────────────────────────────────────
 
+# ASDF (must load before any asdf-managed toolchains)
+. "$(brew --prefix asdf)/libexec/asdf.sh"
+
+# acme.sh
 source "$HOME/.acme.sh/acme.sh.env"
+
+# Rclone Jobber setup
 export rclone_jobber="$HOME/Developer/rclone_jobber"
 
+# AWS CLI v2 auto-prompt and profile state
 export AWS_CLI_AUTO_PROMPT=on
 export AWS_PROFILE_STATE_ENABLED=true
 
+# Homebrew environment variables
 export HOMEBREW_NO_ANALYTICS=1
 export HOMEBREW_NO_AUTO_UPDATE=1
 export HOMEBREW_NO_INSECURE_REDIRECT=1
-export HOMEBREW_GITHUB_API_TOKEN="op://Private/Homebrew Github API Token/Section_kisnbqsrqfhkygcuywhxkbab24/token"
+#export HOMEBREW_GITHUB_API_TOKEN="op://Private/Homebrew Github API Token/Section_kisnbqsrqfhkygcuywhxkbab24/token"
 
 
 ### ────────────────────────────────────────────────────────────────────────────
@@ -290,6 +305,3 @@ alias sshinfo='sshagent-info'
 ### ────────────────────────────────────────────────────────────────────────────
 
 [[ -f ~/.p10k.zsh ]] && source ~/.p10k.zsh
-
-
-. "$(brew --prefix asdf)/libexec/asdf.sh"
