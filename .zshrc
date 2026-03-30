@@ -14,11 +14,6 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
-USERNAME=$(print -P "%n")
-CACHE_FILE="${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${USERNAME}.zsh"
-[[ -r "$CACHE_FILE" ]] && source "$CACHE_FILE"
-
-
 ### ────────────────────────────────────────────────────────────────────────────
 ### 1. Core Environment + Secrets
 ### ────────────────────────────────────────────────────────────────────────────
@@ -27,9 +22,14 @@ CACHE_FILE="${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${USERNAME}.zsh"
 
 export LANG=en_US.UTF-8
 export CLICOLOR=1
-export NOW="$(date +%F-%H:%M:%S)"
-export TODAY="$(date +%F)"
-export TIMESTAMP="$(date +%Y-%m-%d_%H%M%S)"
+
+# NOW / TODAY / TIMESTAMP — updated before each command (preexec) and before each prompt (precmd)
+refresh_time_vars() {
+  export NOW="$(command date +%F-%H:%M:%S)"
+  export TODAY="$(command date +%F)"
+  export TIMESTAMP="$(command date +%Y-%m-%d_%H%M%S)"
+}
+refresh_time_vars
 
 
 ### ────────────────────────────────────────────────────────────────────────────
@@ -114,7 +114,6 @@ export ZSH="$HOME/.oh-my-zsh"
 ZSH_THEME="powerlevel10k/powerlevel10k"
 
 plugins=(
-  1password
   alias-finder
   aws
   azure
@@ -126,7 +125,6 @@ plugins=(
   gnu-utils
   macos
   nmap
-  ssh-agent
   sudo
   vscode
   zsh-autosuggestions
@@ -134,12 +132,20 @@ plugins=(
 
 source $ZSH/oh-my-zsh.sh
 
+autoload -Uz add-zsh-hook
+add-zsh-hook precmd refresh_time_vars
+add-zsh-hook preexec refresh_time_vars
+
 
 ### ────────────────────────────────────────────────────────────────────────────
 ### 4. Completion Engine (zsh-autocomplete — must load AFTER OMZ)
 ### ────────────────────────────────────────────────────────────────────────────
 
-source /opt/homebrew/share/zsh-autocomplete/zsh-autocomplete.plugin.zsh
+_zsh_autocomplete=
+[[ -f /opt/homebrew/share/zsh-autocomplete/zsh-autocomplete.plugin.zsh ]] && _zsh_autocomplete=/opt/homebrew/share/zsh-autocomplete/zsh-autocomplete.plugin.zsh
+[[ -z $_zsh_autocomplete && -f /usr/local/share/zsh-autocomplete/zsh-autocomplete.plugin.zsh ]] && _zsh_autocomplete=/usr/local/share/zsh-autocomplete/zsh-autocomplete.plugin.zsh
+[[ -n $_zsh_autocomplete ]] && source "$_zsh_autocomplete"
+unset _zsh_autocomplete
 
 # tuning
 zstyle ':autocomplete:*' min-input 2
@@ -175,8 +181,8 @@ bindkey '^@' autosuggest-accept     # Ctrl-Space
 ### 6. PATH Management (deduped, safe)
 ### ────────────────────────────────────────────────────────────────────────────
 
-# Safe PATH-add function
-path() {
+# Append dir to PATH if missing (not named `path` — that shadows zsh's path/PATH tie)
+path_add() {
   local dir="$1"
   [[ -d "$dir" ]] || return
   case ":$PATH:" in
@@ -186,41 +192,56 @@ path() {
 }
 
 # Base PATH entries
-path "/opt/homebrew/bin"
-path "/opt/homebrew/sbin"
-path "/usr/local/bin"
-path "/usr/local/sbin"
-path "/usr/bin"
-path "/usr/sbin"
-path "/bin"
-path "/sbin"
-path "$HOME/bin"
-path "/Applications/MacVim.app/Contents/bin"
-path "$HOME/.jenv/bin"
-path "$HOME/.dotnet/tools"
-path "$HOME/.local/bin"
-path "${ASDF_DATA_DIR:-$HOME/.asdf}/shims"
+path_add "/opt/homebrew/bin"
+path_add "/opt/homebrew/sbin"
+path_add "/usr/local/bin"
+path_add "/usr/local/sbin"
+path_add "/usr/bin"
+path_add "/usr/sbin"
+path_add "/bin"
+path_add "/sbin"
+path_add "$HOME/bin"
+path_add "/Applications/MacVim.app/Contents/bin"
+path_add "$HOME/.jenv/bin"
+path_add "$HOME/.dotnet/tools"
+path_add "$HOME/.local/bin"
+path_add "${ASDF_DATA_DIR:-$HOME/.asdf}/shims"
 
 
 ### ────────────────────────────────────────────────────────────────────────────
-### 7. Toolchain Initialization
+### 7. Tools + Environment
 ### ────────────────────────────────────────────────────────────────────────────
 
-export JAVA_HOME=$(/usr/libexec/java_home -v 21)
-command -v pyenv 1>/dev/null && eval "$(pyenv init -)"
-command -v rbenv 1>/dev/null && eval "$(rbenv init - zsh)"
-export SDKROOT=$(xcrun --show-sdk-path)
-
-
-### ────────────────────────────────────────────────────────────────────────────
-### 8. Tools + Environment
-### ────────────────────────────────────────────────────────────────────────────
+# Homebrew binary (do not rely on PATH alone — helps GUI-spawned tools)
+_brew_bin=
+[[ -x /opt/homebrew/bin/brew ]] && _brew_bin=/opt/homebrew/bin/brew
+[[ -z $_brew_bin && -x /usr/local/bin/brew ]] && _brew_bin=/usr/local/bin/brew
 
 # ASDF (must load before any asdf-managed toolchains)
-. "$(brew --prefix asdf)/libexec/asdf.sh"
+if [[ -n $_brew_bin ]]; then
+  _asdf_sh="$($_brew_bin --prefix asdf 2>/dev/null)/libexec/asdf.sh"
+  [[ -r $_asdf_sh ]] && . "$_asdf_sh"
+  unset _asdf_sh
+fi
+
+# Java Home (prefer 21, else any default JDK)
+if _jh=$(/usr/libexec/java_home -v 21 2>/dev/null); then
+  export JAVA_HOME=$_jh
+elif _jh=$(/usr/libexec/java_home 2>/dev/null); then
+  export JAVA_HOME=$_jh
+fi
+unset _jh
+
+# Python and Ruby Environments
+# PATH/shims live in ~/.zprofile for GUI apps; full interactive init stays here.
+command -v pyenv 1>/dev/null && eval "$(pyenv init -)"
+command -v rbenv 1>/dev/null && eval "$(rbenv init - zsh)"
+
+# SDKROOT
+export SDKROOT=$(xcrun --show-sdk-path)
 
 # acme.sh
-source "$HOME/.acme.sh/acme.sh.env"
+[[ -f "$HOME/.acme.sh/acme.sh.env" ]] && source "$HOME/.acme.sh/acme.sh.env"
 
 # Rclone Jobber setup
 export rclone_jobber="$HOME/Developer/rclone_jobber"
@@ -233,18 +254,16 @@ export AWS_PROFILE_STATE_ENABLED=true
 export HOMEBREW_NO_ANALYTICS=1
 export HOMEBREW_NO_AUTO_UPDATE=1
 export HOMEBREW_NO_INSECURE_REDIRECT=1
-#export HOMEBREW_GITHUB_API_TOKEN="op://Private/Homebrew Github API Token/Section_kisnbqsrqfhkygcuywhxkbab24/token"
+# HOMEBREW_GITHUB_API_TOKEN lives in ~/.zsh_secrets (plain export — avoids `op read` / Touch ID on every shell)
 
-
-### ────────────────────────────────────────────────────────────────────────────
-### 9. Syntax Highlighting (MUST BE LAST)
-### ────────────────────────────────────────────────────────────────────────────
-
-source "$(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
-
+# Citation Compliance Azure Subscriptions
+export ANSI_PROD_SUBSCRIPTION_ID="39b730ee-923b-4984-8afd-6ae2cdf4a6ba"
+export ANSI_TEST_SUBSCRIPTION_ID="ce81da77-db96-4f42-a1a2-c78af55d9eac"
+export HEMP_PROD_SUBSCRIPTION_ID="4590f2f9-6f9e-4402-99e3-fac008b34706"
+export CEI_PROD_SUBSCRIPTION_ID="1e4358df-12a7-4b8a-930e-08fb7e9b348b"
 
 ### ────────────────────────────────────────────────────────────────────────────
-### 10. zsh-doctor (diagnostics only — NO FIXER)
+### 8. zsh-doctor (diagnostics only — NO FIXER)
 ### ────────────────────────────────────────────────────────────────────────────
 
 zsh-doctor() {
@@ -282,7 +301,7 @@ zsh-doctor() {
 
 
 ### ────────────────────────────────────────────────────────────────────────────
-### 11. Aliases
+### 9. Aliases
 ### ────────────────────────────────────────────────────────────────────────────
 
 alias zshconfig="code -n ~/.zshrc"
@@ -301,7 +320,19 @@ alias sshinfo='sshagent-info'
 
 
 ### ────────────────────────────────────────────────────────────────────────────
-### 12. Powerlevel10k Prompt
+### 10. Powerlevel10k Prompt
 ### ────────────────────────────────────────────────────────────────────────────
 
 [[ -f ~/.p10k.zsh ]] && source ~/.p10k.zsh
+
+
+### ────────────────────────────────────────────────────────────────────────────
+### 11. Syntax highlighting (MUST BE LAST — after OMZ, autocomplete, and p10k)
+### ────────────────────────────────────────────────────────────────────────────
+
+_zsh_highlight=
+[[ -n $_brew_bin ]] && _zsh_highlight="$($_brew_bin --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
+[[ -z $_zsh_highlight || ! -f $_zsh_highlight ]] && _zsh_highlight=/opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+[[ ! -f $_zsh_highlight ]] && _zsh_highlight=/usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+[[ -f $_zsh_highlight ]] && source "$_zsh_highlight"
+unset _brew_bin _zsh_highlight
