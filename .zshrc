@@ -7,9 +7,16 @@
 ### 0. Powerlevel10k Instant Prompt (MUST STAY FIRST)
 ### ────────────────────────────────────────────────────────────────────────────
 
-USERNAME=$(print -P "%n")
-CACHE_FILE="${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${USERNAME}.zsh"
-[[ -r "$CACHE_FILE" ]] && source "$CACHE_FILE"
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
+#USERNAME=$(print -P "%n")
+#CACHE_FILE="${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${USERNAME}.zsh"
+#[[ -r "$CACHE_FILE" ]] && source "$CACHE_FILE"
 
 
 ### ────────────────────────────────────────────────────────────────────────────
@@ -23,6 +30,7 @@ export CLICOLOR=1
 export NOW="$(date +%F-%H:%M:%S)"
 export TODAY="$(date +%F)"
 export TIMESTAMP="$(date +%Y-%m-%d_%H%M%S)"
+export PYENV_ROOT="${PYENV_ROOT:-$HOME/.pyenv}"
 
 
 ### ────────────────────────────────────────────────────────────────────────────
@@ -119,20 +127,24 @@ plugins=(
   gnu-utils
   macos
   nmap
-  ssh-agent
   sudo
   vscode
   zsh-autosuggestions
 )
 
-source $ZSH/oh-my-zsh.sh
+source "$ZSH/oh-my-zsh.sh"
 
 
 ### ────────────────────────────────────────────────────────────────────────────
 ### 4. Completion Engine (zsh-autocomplete — must load AFTER OMZ)
 ### ────────────────────────────────────────────────────────────────────────────
 
-source /opt/homebrew/share/zsh-autocomplete/zsh-autocomplete.plugin.zsh
+if [[ -r /opt/homebrew/share/zsh-autocomplete/zsh-autocomplete.plugin.zsh ]]; then
+  zmodload -F zsh/terminfo p:terminfo 2>/dev/null
+  if [[ -n ${terminfo[kcbt]-} ]]; then
+  source /opt/homebrew/share/zsh-autocomplete/zsh-autocomplete.plugin.zsh
+  fi
+fi
 
 # tuning
 zstyle ':autocomplete:*' min-input 2
@@ -150,7 +162,7 @@ bindkey '^[[1;5B' history-beginning-search-forward
 
 # Tab / Shift-Tab completion menu cycling
 bindkey '^I' menu-complete
-bindkey "$terminfo[kcbt]" reverse-menu-complete
+[[ -n ${terminfo[kcbt]-} ]] && bindkey "$terminfo[kcbt]" reverse-menu-complete
 
 # History search shortcuts
 bindkey -M emacs "^[p" .history-search-backward
@@ -196,40 +208,50 @@ path "${ASDF_DATA_DIR:-$HOME/.asdf}/shims"
 
 
 ### ────────────────────────────────────────────────────────────────────────────
-### 7. Toolchain Initialization
+### 7. Tools + Environment
 ### ────────────────────────────────────────────────────────────────────────────
 
-export JAVA_HOME=$(/usr/libexec/java_home -v 21)
-command -v pyenv 1>/dev/null && eval "$(pyenv init -)"
-command -v rbenv 1>/dev/null && eval "$(rbenv init - zsh)"
-export SDKROOT=$(xcrun --show-sdk-path)
+# acme.sh configuration (for cert management)
+[[ -f "$HOME/.acme.sh/acme.sh.env" ]] && source "$HOME/.acme.sh/acme.sh.env"
 
-
-### ────────────────────────────────────────────────────────────────────────────
-### 8. Tools + Environment
-### ────────────────────────────────────────────────────────────────────────────
-
-source "$HOME/.acme.sh/acme.sh.env"
+# rclone_jobber (personal rclone wrapper scripts)
 export rclone_jobber="$HOME/Developer/rclone_jobber"
 
+# Set JAVA_HOME to JDK 21
+export JAVA_HOME=$(/usr/libexec/java_home -v 21)
+
+# Initialize pyenv and rbenv
+command -v pyenv 1>/dev/null && eval "$(pyenv init - --no-rehash)"
+command -v rbenv 1>/dev/null && eval "$(rbenv init - zsh)"
+
+# Set SDKROOT to the current SDK path
+export SDKROOT=$(xcrun --show-sdk-path)
+
+# asdf version manager
+[[ -r "$(brew --prefix asdf)/libexec/asdf.sh" ]] && source "$(brew --prefix asdf)/libexec/asdf.sh"
+
+# AWS CLI v2 auto-prompt and profile state
 export AWS_CLI_AUTO_PROMPT=on
 export AWS_PROFILE_STATE_ENABLED=true
 
+# Homebrew environment variables
 export HOMEBREW_NO_ANALYTICS=1
 export HOMEBREW_NO_AUTO_UPDATE=1
 export HOMEBREW_NO_INSECURE_REDIRECT=1
-export HOMEBREW_GITHUB_API_TOKEN="op://Private/Homebrew Github API Token/Section_kisnbqsrqfhkygcuywhxkbab24/token"
+# Homebrew GitHub API token — no `op read` here (that slowed every shell and broke VS Code/Cursor).
+# Set in ~/.zsh_secrets (sourced above) or replace the line below with your PAT; see:
+# https://docs.brew.sh/Manpage#github_api_token
+export HOMEBREW_GITHUB_API_TOKEN="${HOMEBREW_GITHUB_API_TOKEN:-}"
+
+### ────────────────────────────────────────────────────────────────────────────
+### 8. Syntax Highlighting (MUST BE LAST)
+### ────────────────────────────────────────────────────────────────────────────
+
+[[ -r "$(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" ]] && source "$(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
 
 
 ### ────────────────────────────────────────────────────────────────────────────
-### 9. Syntax Highlighting (MUST BE LAST)
-### ────────────────────────────────────────────────────────────────────────────
-
-source "$(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
-
-
-### ────────────────────────────────────────────────────────────────────────────
-### 10. zsh-doctor (diagnostics only — NO FIXER)
+### 9. zsh-doctor (diagnostics only — NO FIXER)
 ### ────────────────────────────────────────────────────────────────────────────
 
 zsh-doctor() {
@@ -267,7 +289,7 @@ zsh-doctor() {
 
 
 ### ────────────────────────────────────────────────────────────────────────────
-### 11. Aliases
+### 10. Aliases
 ### ────────────────────────────────────────────────────────────────────────────
 
 alias zshconfig="code -n ~/.zshrc"
@@ -286,10 +308,10 @@ alias sshinfo='sshagent-info'
 
 
 ### ────────────────────────────────────────────────────────────────────────────
-### 12. Powerlevel10k Prompt
+### 11. Powerlevel10k Prompt
 ### ────────────────────────────────────────────────────────────────────────────
 
 [[ -f ~/.p10k.zsh ]] && source ~/.p10k.zsh
 
 
-. "$(brew --prefix asdf)/libexec/asdf.sh"
+

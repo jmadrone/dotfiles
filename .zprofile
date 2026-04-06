@@ -1,11 +1,16 @@
 eval "$(/opt/homebrew/bin/brew shellenv)"
 
-
-# Added by Toolbox App
+# Keep login-shell environment setup here so GUI apps can resolve it
+# without depending on the full interactive shell stack.
 export PATH="$PATH:/Users/josh/Library/Application Support/JetBrains/Toolbox/scripts"
-
-
-# Created by `pipx` on 2025-03-27 08:18:05
 export PATH="$PATH:/Users/josh/.local/bin"
-# Add .NET Core SDK tools
 export PATH="$PATH:/Users/josh/.dotnet/tools"
+
+export PYENV_ROOT="$HOME/.pyenv"
+if [[ -d "$PYENV_ROOT/bin" ]]; then
+  export PATH="$PYENV_ROOT/bin:$PATH"
+fi
+
+if command -v pyenv >/dev/null 2>&1; then
+  eval "$(pyenv init --path)"
+fi
