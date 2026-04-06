@@ -14,10 +14,6 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
-#USERNAME=$(print -P "%n")
-#CACHE_FILE="${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${USERNAME}.zsh"
-#[[ -r "$CACHE_FILE" ]] && source "$CACHE_FILE"
-
 
 ### ────────────────────────────────────────────────────────────────────────────
 ### 1. Core Environment + Secrets
@@ -30,7 +26,6 @@ export CLICOLOR=1
 export NOW="$(date +%F-%H:%M:%S)"
 export TODAY="$(date +%F)"
 export TIMESTAMP="$(date +%Y-%m-%d_%H%M%S)"
-export PYENV_ROOT="${PYENV_ROOT:-$HOME/.pyenv}"
 
 
 ### ────────────────────────────────────────────────────────────────────────────
@@ -223,6 +218,10 @@ export JAVA_HOME=$(/usr/libexec/java_home -v 21)
 # Initialize pyenv and rbenv
 command -v pyenv 1>/dev/null && eval "$(pyenv init - --no-rehash)"
 command -v rbenv 1>/dev/null && eval "$(rbenv init - zsh)"
+
+# Set PYENV_ROOT to ~/.pyenv if not already set (for pyenv init)
+export PYENV_ROOT="${PYENV_ROOT:-$HOME/.pyenv}"
+
 
 # Set SDKROOT to the current SDK path
 export SDKROOT=$(xcrun --show-sdk-path)
