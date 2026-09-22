@@ -26,3 +26,7 @@ export RBENV_ROOT="${RBENV_ROOT:-$HOME/.rbenv}"
 
 export ASDF_DATA_DIR="${ASDF_DATA_DIR:-$HOME/.asdf}"
 [[ -d "$ASDF_DATA_DIR/shims" ]] && export PATH="$ASDF_DATA_DIR/shims:$PATH"
+
+# >>> Codex installer >>>
+export PATH="/Users/josh/.local/bin:$PATH"
+# <<< Codex installer <<<

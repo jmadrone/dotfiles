@@ -10,9 +10,13 @@
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
+(( ${+commands[direnv]} )) && emulate zsh -c "$(direnv export zsh)"
+
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
+
+(( ${+commands[direnv]} )) && emulate zsh -c "$(direnv hook zsh)"
 
 ### ────────────────────────────────────────────────────────────────────────────
 ### 1. Core Environment + Secrets
@@ -120,7 +124,6 @@ plugins=(
   brew
   colorize
   copypath
-  dotenv
   gh
   gnu-utils
   macos
@@ -258,9 +261,10 @@ export HOMEBREW_NO_INSECURE_REDIRECT=1
 
 # Citation Compliance Azure Subscriptions
 export ANSI_PROD_SUBSCRIPTION_ID="39b730ee-923b-4984-8afd-6ae2cdf4a6ba"
-export ANSI_TEST_SUBSCRIPTION_ID="ce81da77-db96-4f42-a1a2-c78af55d9eac"
+export TEST_SUBSCRIPTION_ID="ce81da77-db96-4f42-a1a2-c78af55d9eac"
 export HEMP_PROD_SUBSCRIPTION_ID="4590f2f9-6f9e-4402-99e3-fac008b34706"
 export CEI_PROD_SUBSCRIPTION_ID="1e4358df-12a7-4b8a-930e-08fb7e9b348b"
+export CITATION_PROD_SUBSCRIPTION_ID="5136e1e2-3a60-4205-9df6-4435fe4589be"
 
 ### ────────────────────────────────────────────────────────────────────────────
 ### 8. zsh-doctor (diagnostics only — NO FIXER)

@@ -1,7 +1,6 @@
 [user]
 	name = Josh Madrone
-	email = josh@madrone.me
-	signingKey = 3FDF427CB02A7EFAB903CC0BB381129334885EE7
+	email = jmadrone@citationcompliance.com
 [mergetool]
 	keepBackup = true
 	prompt = false
