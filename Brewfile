@@ -57,7 +57,7 @@ brew "coreutils"
 # Get a file from an HTTP, HTTPS or FTP server
 brew "curl", link: true
 # Pack, ship and run any application as a lightweight container
-brew "docker", link: false
+brew "docker"
 # Convert text between DOS, UNIX, and Mac formats
 brew "dos2unix"
 # Command-line interface for Cyberduck (a multi-protocol file transfer tool)
@@ -96,12 +96,12 @@ brew "gcc"
 brew "gpgme"
 # Package compiler and linker metadata toolkit
 brew "pkgconf"
+# Postgres C API library
+brew "libpq"
 # PDF rendering library (based on the xpdf-3.0 code base)
 brew "poppler"
 # Geospatial Data Abstraction Library
 brew "gdal"
-# Interact with Google Gemini AI models from the command-line
-brew "gemini-cli"
 # GitHub command-line tool
 brew "gh"
 # Interpreter for PostScript and PDF
@@ -199,11 +199,9 @@ brew "poetry"
 # Object-relational database system
 brew "postgresql@18", link: true
 # Command-line shell and scripting language
-brew "powershell", link: false
+brew "powershell"
 # Code formatter for JavaScript, CSS, JSON, GraphQL, Markdown, YAML
 brew "prettier"
-# OpenBSD and Darwin versions of pgrep, pkill, and pfind
-brew "proctools"
 # Monitor data's progress through a pipe
 brew "pv"
 # Python version management
@@ -212,8 +210,6 @@ brew "pyenv"
 brew "pygobject3"
 # Interpreted, interactive, object-oriented programming language
 brew "python@3.12"
-# Interpreted, interactive, object-oriented programming language
-brew "python@3.9"
 # Generic machine emulator and virtualizer
 brew "qemu"
 # QR Code generation
@@ -236,8 +232,6 @@ brew "shellcheck"
 brew "shfmt"
 # SMART hard drive monitoring
 brew "smartmontools"
-# Command-line interface for https://speedtest.net bandwidth tests
-brew "speedtest-cli"
 # VPN based on IPsec
 brew "strongswan"
 # Command-line packet analyzer
@@ -270,8 +264,6 @@ brew "wireshark"
 brew "xvid"
 # Tool for managing your YubiKey configuration
 brew "ykman"
-# YubiKey personalization library and tool
-brew "ykpers"
 # Feature-rich command-line audio/video downloader
 brew "yt-dlp"
 # Command-line tool for the YubiKey PIV application
@@ -308,8 +300,6 @@ cask "aws-vpn-client"
 cask "balenaetcher"
 # OpenAI's official ChatGPT desktop app
 cask "chatgpt"
-# OpenAI's official browser with ChatGPT built in
-cask "chatgpt-atlas"
 # Free and open-source web browser
 cask "chromium"
 # Terminal-based AI coding assistant
@@ -392,6 +382,8 @@ cask "gitkraken-cli"
 cask "handbrake-app"
 # Free and open-source media player
 cask "iina"
+# Vector graphics editor
+cask "inkscape"
 # Terminal emulator as alternative to Apple's Terminal app
 cask "iterm2"
 # Automator software to start apps, run scripts or commands and more
@@ -510,7 +502,6 @@ mas "NetworkKit", id: 979299240
 mas "NetworkToolbox", id: 1557453461
 mas "Noir", id: 1592917505
 mas "OmniFocus", id: 1542143627
-mas "OneDrive", id: 823766827
 mas "Parallels System Monitor", id: 6475592380
 mas "Parcel 2", id: 375589283
 mas "Pastel", id: 413897608
@@ -537,7 +528,6 @@ mas "Trading Pro", id: 6755111574
 mas "Trello", id: 1278508951
 mas "VictronConnect", id: 1084677271
 mas "VisualJSON", id: 488709442
-mas "WeTransfer", id: 1114922065
 mas "WhatsApp", id: 310633997
 mas "WiFi Signal", id: 525912054
 mas "Windows App", id: 1295203466
@@ -634,6 +624,7 @@ vscode "ms-mssql.data-workspace-vscode"
 vscode "ms-mssql.mssql"
 vscode "ms-mssql.sql-bindings-vscode"
 vscode "ms-mssql.sql-database-projects-vscode"
+vscode "ms-ossdata.vscode-pgsql"
 vscode "ms-python.debugpy"
 vscode "ms-python.isort"
 vscode "ms-python.python"
@@ -658,6 +649,7 @@ vscode "mtxr.sqltools-driver-mysql"
 vscode "mushan.vscode-paste-image"
 vscode "nicollasr.vscode-streamdeck"
 vscode "openai.chatgpt"
+vscode "openai.codex-audio"
 vscode "patcx.vscode-nuget-gallery"
 vscode "pflannery.vscode-versionlens"
 vscode "postman.postman-for-vscode"

@@ -117,6 +117,11 @@ sshagent-disable() {
 export ZSH="$HOME/.oh-my-zsh"
 ZSH_THEME="powerlevel10k/powerlevel10k"
 
+# No TTY (IDE tasks, Claude Code, `zsh -ic` from scripts): skip p10k. Its
+# gitstatus daemon needs job control and prints "gitstatus failed to
+# initialize"; there's no prompt to render anyway.
+[[ -t 0 && -t 1 ]] || ZSH_THEME=""
+
 plugins=(
   alias-finder
   aws
