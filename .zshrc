@@ -10,10 +10,13 @@
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
+(( ${+commands[direnv]} )) && emulate zsh -c "$(direnv export zsh)"
+
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
+(( ${+commands[direnv]} )) && emulate zsh -c "$(direnv hook zsh)"
 
 ### ────────────────────────────────────────────────────────────────────────────
 ### 1. Core Environment + Secrets
@@ -96,11 +99,81 @@ sshagent-use-system() {
   echo "✅ SSH agent set to: $SSH_AGENT_STATUS"
 }
 
+# yubikey-agent socket (Homebrew service)
+_ssh_sock_yubikey() {
+  local sock="/opt/homebrew/var/run/yubikey-agent.sock"
+  [[ -S "$sock" ]] && echo "$sock"
+}
+
+# gpg-agent SSH socket (requires 'enable-ssh-support' in ~/.gnupg/gpg-agent.conf)
+_ssh_sock_gpg() {
+  local sock="$(gpgconf --list-dirs agent-ssh-socket 2>/dev/null)"
+  [[ -S "$sock" ]] && echo "$sock"
+}
+
+sshagent-use-yubikey() {
+  local sock="$(_ssh_sock_yubikey)"
+
+  if [[ -z "$sock" ]]; then
+    echo "❌ yubikey-agent socket not found (brew services start yubikey-agent)"
+    return 1
+  fi
+
+  export SSH_AUTH_SOCK="$sock"
+  detect_ssh_agent
+  echo "✅ SSH agent set to: $SSH_AGENT_STATUS"
+}
+
+sshagent-use-gpg() {
+  local sock="$(_ssh_sock_gpg)"
+
+  if [[ -z "$sock" ]]; then
+    echo "❌ gpg-agent SSH socket not found (add 'enable-ssh-support' to ~/.gnupg/gpg-agent.conf)"
+    return 1
+  fi
+
+  export SSH_AUTH_SOCK="$sock"
+  detect_ssh_agent
+  echo "✅ SSH agent set to: $SSH_AGENT_STATUS"
+}
+
 sshagent-disable() {
   unset SSH_AUTH_SOCK
   SSH_AGENT_STATUS="none"
   echo "🚫 SSH agent disabled"
 }
+
+### ─────────────────────────────────────────────────────────────────────────────
+### 2.2 Default SSH Agent (added 2026-08-19)
+### ─────────────────────────────────────────────────────────────────────────────
+
+# ~/.ssh/config sets `IdentityAgent SSH_AUTH_SOCK`, so whatever this variable
+# holds is what ssh will actually use. Without an explicit default the shell
+# inherits the launchd socket, which only works today because it happens to
+# serve the same keys as 1Password -- not something to rely on.
+#
+# Runs silently. Deliberately does NOT clobber:
+#   - an agent forwarded into an inbound SSH session
+#   - a socket already pointing at yubikey-agent or gpg-agent
+# Note: the launchd/"system" socket IS treated as overridable, since it is the
+# ambient default and indistinguishable from an explicit sshagent-use-system.
+sshagent-default() {
+  # Never override an agent forwarded into this machine over SSH.
+  [[ -n "$SSH_CONNECTION" ]] && return 0
+
+  detect_ssh_agent
+  case "$SSH_AGENT_STATUS" in
+    (yubikey-agent|gpg-agent) return 0 ;;
+  esac
+
+  local sock="$(_ssh_sock_1password)"
+  [[ -z "$sock" ]] && return 0   # 1Password not running; keep whatever is set
+
+  export SSH_AUTH_SOCK="$sock"
+  detect_ssh_agent
+}
+sshagent-default
+
 
 ### ────────────────────────────────────────────────────────────────────────────
 ### 3. Oh-My-Zsh Bootstrap (minimal plugin set)
@@ -117,7 +190,7 @@ plugins=(
   brew
   colorize
   copypath
-  dotenv
+  direnv
   gh
   gnu-utils
   macos
@@ -301,6 +374,9 @@ alias azureconfig="code -n ~/.azure/"
 alias brewalias='/usr/bin/osascript -e "tell application id \"com.runningwithcrayons.Alfred\" to run trigger \"build\" in workflow \"com.alfredapp.aliashomebrewapps\""'
 alias brewery="brew update && brew upgrade && brew cleanup"
 alias ssh1p='sshagent-use-1password'
+alias sshyk='sshagent-use-yubikey'
+alias sshgpg='sshagent-use-gpg'
+alias sshsys='sshagent-use-system'
 alias sshsys='sshagent-use-system'
 alias sshoff='sshagent-disable'
 alias sshinfo='sshagent-info'

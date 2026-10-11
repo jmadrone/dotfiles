@@ -1,7 +1,7 @@
 [user]
 	name = Josh Madrone
 	email = josh@madrone.me
-	signingKey = 3FDF427CB02A7EFAB903CC0BB381129334885EE7
+	signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILtDhXZ/bkNy3qbynZ62L5eo54MzRLC3W2x7UuQXcw9E
 [mergetool]
 	keepBackup = true
 	prompt = false
@@ -13,10 +13,10 @@
 	cmd = ksdiff --merge --output \"$MERGED\" --base \"$BASE\" -- \"$LOCAL\" --snapshot \"$REMOTE\" --snapshot
 	trustExitCode = true
 [commit]
-	gpgSign = false
+	gpgsign = true
 [gpg]
 	program = /opt/homebrew/bin/gpg
-	format = openpgp
+	format = ssh
 [filter "lfs"]
 	clean = git-lfs clean -- %f
 	smudge = git-lfs smudge -- %f
